@@ -56,8 +56,8 @@ def generate_receiver(a_id, sender_list, conn):
     :return:
     """
 
-    recv = tf.zeros([1, recv_mid_dim], dtype=tf.float32, name=None)
-
+    # recv = tf.zeros([1, recv_mid_dim], dtype=tf.float32, name=None)
+    recv = tf.zeros([tf.shape(sender_list)[1], recv_mid_dim], dtype=tf.float32, name=None)
     for i, msg in enumerate(sender_list):
         if i == a_id:
             continue
@@ -191,6 +191,7 @@ def generate_schedule_network(obs):
 
     return schedule
 
+
 if __name__ == '__main__':
     obs = tf.placeholder(dtype=tf.float32, shape=[None, obs_dim * num_agent])
     conn = tf.placeholder(tf.bool, name='check')
@@ -205,6 +206,7 @@ if __name__ == '__main__':
     conn_i = [[False, True, False], [False, True, False], [False, True, False]]
     a, m, r = sess.run(srnet, feed_dict={obs: [
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1,
+         2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9],[1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1,
          2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]], conn: conn_i})
 
     print "Actions:", a
